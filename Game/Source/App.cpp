@@ -8,14 +8,7 @@
 #include "Map.h"
 #include "Physics.h"
 #include "Animation.h"
-#include "Effect.h"
-#include "ModuleFadeToBlack.h"
-#include "ModuleParticles.h"
-#include "Fonts.h"
-#include "GuiManager.h"
-#include "SceneMenu.h"
-
-
+#include "ItemBox.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -39,15 +32,12 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	tex = new Textures();
 	audio = new Audio();
 	physics = new Physics();
-	scene = new Scene(false);
-	scenemenu = new SceneMenu();
-	map = new Map(false);
-	entityManager = new EntityManager(false);
+	scene = new Scene();
+	map = new Map();
+	entityManager = new EntityManager();
 	animation = new Animation();
-	fade = new ModuleFadeToBlack();
-	par = new ModuleParticles();
-	fonts = new Fonts();
-	guiManager = new GuiManager();
+
+
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -57,17 +47,13 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(physics);
 	AddModule(scene);
-	AddModule(scenemenu);
 	AddModule(map);
 	AddModule(entityManager);
-	AddModule(par);
-	AddModule(fonts);
-	AddModule(guiManager);
+
+
 
 	// Render last to swap buffer
-	
 	AddModule(render);
-	AddModule(fade);
 
 	LOG("Timer App Constructor: %f", timer.ReadMSec());
 }
@@ -103,11 +89,7 @@ bool App::Awake()
 	if(ret == true)
 	{
 		title = configNode.child("app").child("title").child_value(); 
-		fontsNumber = configNode.child("fonts").child("numbers").attribute("texturePath").as_string();
-		TimeBorde = configNode.child("fonts").child("borde").attribute("texturePath").as_string();
 		win->SetTitle(title.GetString());
-
-		
 
 		ListItem<Module*>* item;
 		item = modules.start;
@@ -118,21 +100,13 @@ bool App::Awake()
 			// that can be used to read all variables for that module.
 			// Send nullptr if the node does not exist in config.xml
 			pugi::xml_node node = configNode.child(item->data->name.GetString());
-			
-				ret = item->data->Awake(node);
-		
+			ret = item->data->Awake(node);
 			item = item->next;
 		}
 	}
 
 	LOG("Timer App Awake(): %f", timer.ReadMSec());
 
-	/*char font[] = { "0123456789       abcdefghijklmnopqrstuvwxyz_?,-  " };
-	scoreFontRed16px = fonts->Load("Assets/Interface/Fonts/Red.png", lookupTable, 3);*/
-
-	char number[] = { "0123456789" };
-	numbers = app->fonts->Load(fontsNumber, number, 1);
-	
 	return ret;
 }
 
@@ -147,9 +121,7 @@ bool App::Start()
 
 	while(item != NULL && ret == true)
 	{
-		if (item->data->active) {
-			ret = item->data->Start();
-		}
+		ret = item->data->Start();
 		item = item->next;
 	}
 
@@ -177,9 +149,7 @@ bool App::Update()
 		ret = PostUpdate();
 
 	FinishUpdate();
-
-	if (!ret)return ret;
-	return closeGame;
+	return ret;
 }
 
 // Load config from XML file
@@ -247,15 +217,6 @@ void App::FinishUpdate()
 		averageFps, framesPerSecond, dt, secondsSinceStartup, frameCount);
 
 	app->win->SetTitle(title);
-
-	if (loadRequest) {
-		loadRequest = false;
-		LoadFromFile();
-	}
-	if (saveRequest) {
-		saveRequest = false;
-		SaveFromFile();
-	}
 }
 
 // Call modules before each loop iteration
@@ -370,84 +331,4 @@ const char* App::GetOrganization() const
 	return organization.GetString();
 }
 
-bool App::LoadRequest() {
-	bool ret = true;
-	loadRequest = true;
-	return true;
-}
 
-bool App::SaveRequest() {
-	bool ret = true;
-	saveRequest = true;
-	return true;
-}
-
-void App::resetMap()
-{
-	ListItem<Module*>* item;
-	item = modules.start;
-	pugi::xml_node node = configNode.child(item->data->name.GetString());
-
-	entityManager->Awake(node);
-}
-uint64 App::GetFrameCount()
-{
-	return frameCount;
-
-}
-
-bool App::LoadFromFile() {
-	bool ret = true;
-
-	pugi::xml_document saveFile;
-	pugi::xml_parse_result result = saveFile.load_file("save_game.xml");
-
-	if (result) {
-		LOG("save_game.xml parsed without errors");
-
-		ListItem<Module*>* item;
-		item = modules.start;
-
-		while (item != NULL && ret == true)
-		{
-			ret = item->data->LoadState(saveFile.child("save_game").child(item->data->name.GetString()));
-			item = item->next;
-		}
-
-	}
-	else
-	{
-		LOG("Error loading save_game.xml: %s", result.description());
-		ret = false;
-
-	}
-	return ret;
-}
-
-bool App::SaveFromFile() {
-	bool ret = true;
-
-	pugi::xml_document saveFile;
-	pugi::xml_node gameState= saveFile.append_child("save_game");
-
-
-
-	ListItem<Module*>* item;
-	item = modules.start;
-
-		while (item != NULL && ret == true)
-		{
-			pugi::xml_node module=gameState.append_child(item->data->name.GetString());
-
-			ret = item->data->SaveState(module);
-			item = item->next;
-		}
-
-		ret = saveFile.save_file("save_game.xml");
-		if (ret) LOG("Saved");
-		else LOG("Error saving game state");
-		ret = false;
-
-	
-	return ret;
-}

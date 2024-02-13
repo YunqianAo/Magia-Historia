@@ -29,16 +29,6 @@ enum class ColliderType {
 	PLATFORM, 
 	DEADPLATFORM,
 	WALL,
-	ENEMY,
-	SHOP,
-	EFFECT,
-	ENEMYAREA,
-	PLAYERLEAVE,
-	CLOSEATK_PLAYER,
-	CLOSEATK_ENEMY,
-	VICTORYCOLLISION,
-	ENERGYBALL,
-	BOSSATACK,
 	UNKNOWN
 	// ..
 };
@@ -83,17 +73,11 @@ public:
 	PhysBody* CreateRectangle(int x, int y, int width, int height, bodyType type);
 	PhysBody* CreateCircle(int x, int y, int radious, bodyType type);
 	PhysBody* CreateRectangleSensor(int x, int y, int width, int height, bodyType type);
-	PhysBody* CreateCircleSensor(int x, int y, int radius, bodyType type);
 	PhysBody* CreateChain(int x, int y, int* points, int size, bodyType type);
-	PhysBody* CreateTriangleSensor(int x, int y, int sideLength, bodyType type);
 
 	
 	// b2ContactListener ---
 	void BeginContact(b2Contact* contact);
-	void EndContact(b2Contact* contact);
-
-	b2World* GetWorld();
-	
 
 private:
 

@@ -2,10 +2,6 @@
 #define __TIMER_H__
 
 #include "Defs.h"
-#include "SDL\include\SDL_timer.h"
-#include <chrono>
-#include <cstdint>
-
 
 class Timer
 {
@@ -16,11 +12,7 @@ public:
 
 	void Start();
 	uint32 ReadSec() const;
-	uint32 CountDown(int total) const;
 	float ReadMSec() const;
-
-	void displayTime(int timeInSeconds);
-
 
 private:
 	uint32 startTime;

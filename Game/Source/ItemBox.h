@@ -1,20 +1,21 @@
-#ifndef __ITEM_H__
-#define __ITEM_H__
+#pragma once
+#ifndef __ITEMBOX_H__
+#define __ITEMBOX_H__
 
 #include "Entity.h"
 #include "Point.h"
 #include "Animation.h"
 
-#include "SDL/include/SDL.h"
 
 struct SDL_Texture;
 
-class Item : public Entity
+class ItemBox : public Entity
 {
 public:
 
-	Item();
-	virtual ~Item();
+	ItemBox();
+
+	virtual ~ItemBox();
 
 	bool Awake();
 
@@ -27,13 +28,21 @@ public:
 public:
 
 	bool isPicked = false;
+
 	Animation* currentAnimation = nullptr;
+	Animation idle;
 	Animation openBox;
+	Animation closeBox;
+	Animation SPosition;
+	SDL_Rect* spritePositions;
+
+	int TSprite;
+	int SpriteX;
+	int SpriteY;
+	int PhotoWeight;
 
 private:
 
-	SDL_Texture* texture;
-	const char* texturePath;
 	SDL_Texture* Boxtexture;
 	const char* BoxPath;
 	PhysBody* pbody;

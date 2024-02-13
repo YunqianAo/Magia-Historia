@@ -4,18 +4,6 @@
 #include "Module.h"
 #include "Player.h"
 #include "Item.h"
-#include "Effect.h"
-#include "Enemy_Goblin.h"
-#include "Boss.h"
-#include "PlayerLife.h"
-#include "Angel.h"
-#include "Item.h"
-#include "BossItem.h"
-#include "Diamond.h"
-#include "Cura.h"
-#include "Teleport.h"
-#include "GuiControl.h"
-#include "GuiControlButton.h"
 
 struct SDL_Texture;
 
@@ -23,8 +11,7 @@ class Scene : public Module
 {
 public:
 
-	Scene(bool start_Enabled=true);
-
+	Scene();
 
 	// Destructor
 	virtual ~Scene();
@@ -49,49 +36,15 @@ public:
 
 
 	Player* GetPlayer();
-	Effect* GetEffect();
-	Enemy_Goblin* GetGoblin();
-	Boss* GetBoss();
-	PlayerLife* GetPlayerLife();
-	Angel* GetAngel();
-	Item* GetItem();
-	BossItem* GetBossItem();
-	Diamond* GetDiamond();
-	Cura* GetCura();
-	Teleport* GetTeleport();
-
-	bool LoadState(pugi::xml_node node);
-
-	bool SaveState(pugi::xml_node node);
-	uint windowW, windowH;
 
 
 private:
 	SDL_Texture* img;
 	float textPosX, textPosY = 0;
 	uint texW, texH;
-	
-	Player* player = new Player;
-	Enemy_Goblin* enemy_goblin;
-	Effect* effect;
-	Boss* boss = new Boss;
-	PlayerLife* playerlife;
-	Angel*angel;
-	Item* item;
-	BossItem* bossitem;
-	Diamond* diamond;
-	Cura* cura;
-	Teleport* teleport;
+	uint windowW, windowH;
+	Player* player;
 
-public:
-
-	SDL_Texture* Pathfindingtexture;
-	const char* PathfindingPath;
-
-	bool changeScena = false;
-
-	GuiControlButton* gcButtom;
-	GuiControlButton* gcButtom1;
 };
 
 #endif // __SCENE_H__

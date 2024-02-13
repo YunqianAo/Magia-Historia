@@ -49,9 +49,7 @@ bool Render::Awake(pugi::xml_node& config)
 		camera.x = 0;
 		app->render->camera.y = -701;
 	}
-	TTF_Init();
 
-	font = TTF_OpenFont(config.child("Death_Record").attribute("texturePath").as_string(),50);
 	return ret;
 }
 
@@ -73,6 +71,10 @@ bool Render::PreUpdate()
 
 bool Render::Update(float dt)
 {
+	
+	//printf("Camere: %d", camera.x);
+
+	//printf("Pos: %d", player->position.x);
 	return true;
 }
 
@@ -148,7 +150,7 @@ bool Render::DrawTexture(SDL_Texture* texture, int x, int y,SDL_RendererFlip fli
 	return ret;
 }
 // Blit to screen PLAYER
-bool Render::DrawTexture(SDL_Texture* texture, int x, int y, double scale, SDL_RendererFlip flip,  const SDL_Rect* section, float speed, double angle, int pivotX, int pivotY) const
+bool Render::DrawTexture(SDL_Texture* texture, int x, int y, uint scale, SDL_RendererFlip flip,  const SDL_Rect* section, float speed, double angle, int pivotX, int pivotY) const
 {
 	bool ret = true;
 	//uint scale = app->win->GetScale();
@@ -188,73 +190,6 @@ bool Render::DrawTexture(SDL_Texture* texture, int x, int y, double scale, SDL_R
 
 	return ret;
 }
-
-
-bool Render::DrawTexture(SDL_Texture* texture, int x, int y, double scale, SDL_RendererFlip flip, const SDL_Rect* section, float speed, double angle)
-{
-	bool ret = true;
-
-	SDL_Rect rect;
-	rect.x = (int)(camera.x * speed) + x * app->win->GetScale();
-	rect.y = (int)(camera.y * speed) + y * app->win->GetScale();
-
-	if (section != nullptr)
-	{
-		rect.w = section->w;
-		rect.h = section->h;
-	}
-	else
-	{
-		//Collect the texture size into rect.w and rect.h variables
-		SDL_QueryTexture(texture, nullptr, nullptr, &rect.w, &rect.h);
-	}
-
-	rect.w *= scale;
-	rect.h *= scale;
-
-	//Para el flip
-	SDL_Point center{ rect.w / 2, rect.h / 2 };
-
-
-
-	if (SDL_RenderCopyEx(renderer, texture, section, &rect, angle, &center, flip) != 0)
-
-		//Sin el flip
-		//if (SDL_RenderCopy(renderer, texture, section, &rect) != 0)
-	{
-		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
-		ret = false;
-	}
-
-	
-	if (app->debug ) {// && showRect
-		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-		SDL_RenderDrawRect(renderer, &rect);
-	}
-
-
-	return ret;
-}
-
-bool Render::DrawText(const char* text, int posx, int posy, int w, int h) {
-
-	SDL_Color color = { 255, 247, 194 };
-	SDL_Surface* surface = TTF_RenderText_Solid(font, text, color);
-	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-
-	int texW = 0;
-	int texH = 0;
-	SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
-	SDL_Rect dstrect = { posx, posy, w, h };
-
-	SDL_RenderCopy(renderer, texture, NULL, &dstrect);
-
-	SDL_DestroyTexture(texture);
-	SDL_FreeSurface(surface);
-
-	return true;
-}
-
 
 bool Render::DrawRectangle(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool filled, bool use_camera) const
 {
@@ -338,21 +273,5 @@ bool Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, Uin
 	return ret;
 }
 
-bool Render::LoadState(pugi::xml_node node) {
 
-	camera.x = node.child("camera").attribute("x").as_int();
-	camera.y = node.child("camera").attribute("y").as_int();
-	
-	return true;
 
-}
-
-bool Render::SaveState(pugi::xml_node node) {
-
-	pugi::xml_node camNode = node.append_child("camera");
-	camNode.append_attribute("x").set_value(camera.x);
-	camNode.append_attribute("y").set_value(camera.y);
-
-	return true;
-
-}

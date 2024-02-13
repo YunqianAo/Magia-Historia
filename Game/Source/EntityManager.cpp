@@ -3,21 +3,12 @@
 #include "App.h"
 #include "Textures.h"
 #include "Scene.h"
-#include "Effect.h"
-#include "Enemy_Goblin.h"
-#include "Enemy_Flyeye.h"
-#include "Map.h"
-#include "Boss.h"
-#include "BossItem.h"
-#include "Angel.h"
-#include "Diamond.h"
-#include "Cura.h"
-#include "Teleport.h"
+#include "ItemBox.h"
 
 #include "Defs.h"
 #include "Log.h"
 
-EntityManager::EntityManager(bool start_Enabled) : Module(start_Enabled)
+EntityManager::EntityManager() : Module()
 {
 	name.Create("entitymanager");
 }
@@ -50,7 +41,7 @@ bool EntityManager::Awake(pugi::xml_node& config)
 
 bool EntityManager::Start() {
 
-	bool ret = true;
+	bool ret = true; 
 
 	//Iterates over the entities and calls Start
 	ListItem<Entity*>* item;
@@ -76,7 +67,6 @@ bool EntityManager::CleanUp()
 
 	while (item != NULL && ret == true)
 	{
-
 		ret = item->data->CleanUp();
 		item = item->prev;
 	}
@@ -88,54 +78,25 @@ bool EntityManager::CleanUp()
 
 Entity* EntityManager::CreateEntity(EntityType type)
 {
-	Entity* entity = nullptr;
+	Entity* entity = nullptr; 
 
 	switch (type)
 	{
 	case EntityType::PLAYER:
 		entity = new Player();
 		break;
-	case EntityType::ENEMY_GOBLIN:
-		entity = new Enemy_Goblin();
-		enemys.Add(entity);
-		break;
-	case EntityType::ENEMY_FLYEYE:
-		entity = new Enemy_Flyeye();
-		enemys.Add(entity);
-		break;
 	case EntityType::ITEM:
 		entity = new Item();
 		break;
-	case EntityType::EFFECT:
-		entity = new Effect();
-		break;
-	case EntityType::BOSS:
-		entity = new Boss();
-		break;
-	case EntityType::ANGEL:
-		entity = new Angel();
-		break;
-	case EntityType::BOSSITEM:
-		entity = new BossItem();
-		break;
-	case EntityType::PLAYERLIFE:
-		entity = new PlayerLife();
-		break;
-	case EntityType::DIAMOND:
-		entity = new Diamond();
-		break;
-	case EntityType::CURA:
-		entity = new Cura();
-		break;
-	case EntityType::TELEPORT:
-		entity = new Teleport();
+	case EntityType::ITEMBOX:
+		entity = new ItemBox();
 		break;
 	default:
 		break;
 	}
 
 	entities.Add(entity);
-	//entities.start;
+
 	return entity;
 }
 
@@ -149,37 +110,9 @@ void EntityManager::DestroyEntity(Entity* entity)
 	}
 }
 
-void EntityManager::DestroyAllEntities()
-{
-	ListItem<Entity*>* item;
-	for (item = entities.start; item != NULL; item = item->next)
-	{
-		entities.Del(item);
-	}
-
-}
-
 void EntityManager::AddEntity(Entity* entity)
 {
-	if (entity != nullptr) entities.Add(entity);
-}
-
-void EntityManager::DestroyAllEnemis()
-{
-	ListItem<Entity*>* item;
-	for (item = enemys.start; item != NULL; item = item->next)
-	{
-		ListItem<iPoint>* destroyEnemy;
-		for (destroyEnemy = enemys_destroy.start; destroyEnemy != NULL; destroyEnemy = destroyEnemy->next)
-		{
-			if (app->map->WorldToMap(destroyEnemy->data.x, destroyEnemy->data.y) == app->map->WorldToMap(item->data->originalposition.x, item->data->originalposition.y))
-			{
-				item->data->active = false;
-			}
-		}
-
-	}
-
+	if ( entity != nullptr) entities.Add(entity);
 }
 
 bool EntityManager::Update(float dt)
@@ -188,24 +121,13 @@ bool EntityManager::Update(float dt)
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;
 
+	for (item = entities.start; item != NULL && ret == true; item = item->next)
+	{
+		pEntity = item->data;
 
-
-	if (this->active) {
-		for (item = entities.start; item != NULL && ret == true; item = item->next)
-		{
-			pEntity = item->data;
-
-			if (pEntity->active == false) {
-
-				if (!app->pausa) {
-					item->data->Update(dt);
-				}
-				continue;
-			};
-			if (!app->pausa) {
-				ret = item->data->Update(dt);
-			}
-		}
+		if (pEntity->active == false) continue;
+		ret = item->data->Update(dt);
 	}
+
 	return ret;
 }

@@ -7,15 +7,11 @@
 #include "Timer.h"
 #include "EntityManager.h"
 #include "Animation.h"
-#include "ModuleFadeToBlack.h"
-#include "ModuleParticles.h"
-#include "Fonts.h"
-#include "SceneMenu.h"
+
 
 #include "PugiXml/src/pugixml.hpp"
 
 // Modules
-
 class Window;
 class Input;
 class Render;
@@ -26,11 +22,7 @@ class EntityManager;
 class Map;
 class Physics;
 class Animation;
-class ModuleFadeToBlack;
-class ModuleParticles;
-class Fonts;
-class GuiManager;
-class SceneMenu;
+
 
 class App
 {
@@ -63,14 +55,6 @@ public:
 	const char* GetTitle() const;
 	const char* GetOrganization() const;
 
-	bool LoadRequest();
-
-	bool SaveRequest();
-
-	void resetMap();
-
-	uint64 GetFrameCount();
-
 private:
 
 	// Load config file
@@ -91,17 +75,10 @@ private:
 	// Call modules after each loop iteration
 	bool PostUpdate();
 
-	bool LoadFromFile();
-
-	bool SaveFromFile();
-
-	
-
-
 public:
 
-	bool debug = false ;
-	bool godMode = false;
+	bool debug;
+	bool godMode;
 
 	// Modules
 	Window* win;
@@ -114,27 +91,14 @@ public:
 	Map* map;
 	Physics* physics;
 	Animation* animation;
-	ModuleFadeToBlack* fade;
-	ModuleParticles* par;
-	Fonts* fonts;
-	GuiManager* guiManager;
-	SceneMenu* scenemenu;
 
 	int FpsNum = 16;
-	int numbers = -1;
-	const char* TimeBorde;
-	bool closeGame = true;
-
-	bool pausa = false;
-
 
 private:
 
 	int argc;
 	char** args;
 	SString title;
-	const char* fontsNumber;
-
 	SString organization;
 
 	List<Module *> modules;
@@ -160,10 +124,6 @@ private:
 	uint32 secondsSinceStartup = 0;
 
 	uint32 maxFrameDuration;
-
-	bool loadRequest = false;
-	bool saveRequest = false;
-
 
 
 };

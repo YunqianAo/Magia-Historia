@@ -4,7 +4,6 @@
 #include "Module.h"
 #include "List.h"
 #include "Point.h"
-#include "Pathfinding.h"
 
 #include "PugiXml\src\pugixml.hpp"
 
@@ -70,8 +69,6 @@ struct MapLayer
 	int height;
 	uint* data;
 
-	uint8 opacity;
-
 	Properties properties;
 
 	MapLayer() : data(NULL)
@@ -88,30 +85,6 @@ struct MapLayer
 	}
 };
 
-struct MapObject {
-
-	uint id;
-	uint x;
-	uint y;
-	uint width;
-	uint height;
-	List<uint> points;
-};
-
-struct MapObjects
-{
-	SString	name;
-	int id;
-	int x;
-	int y;
-	int width;
-	int height;
-	List<MapObject*> objects;
-
-	Properties properties;
-
-};
-
 struct MapData
 {
 	int width;
@@ -122,9 +95,6 @@ struct MapData
 	MapTypes type;
 
 	List<MapLayer*> maplayers;
-	List<MapObjects*> mapObjects;
-	
-
 };
 
 
@@ -137,15 +107,13 @@ class Map : public Module
 {
 public:
 
-    Map(bool start_Enabled = true);;
+    Map();
 
     // Destructor
     virtual ~Map();
 
     // Called before render is available
     bool Awake(pugi::xml_node& conf);
-
-	bool Start();
 
 	// Called each loop iteration
 	bool Update(float dt);
@@ -157,9 +125,6 @@ public:
 
     // Load new map
     bool Load();
-
-	void CreateNavigationMap(int& width, int& height, uchar** buffer) const;
-	void removeParedBoos();
 
 	iPoint MapToWorld(int x, int y) const;
 	iPoint Map::WorldToMap(int x, int y);
@@ -173,47 +138,22 @@ private:
 	TileSet* GetTilesetFromTileId(int gid) const;
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
 	bool LoadCollision(std::string layerName);
-	bool LoadEntity(std::string layerName);
 
 public: 
-
-
 
 	MapData mapData;
 	int fondox;
 	int fondoy;
 
-
-	int LevelMap = 1;
-
-	
-
 	iPoint startPointcolisions = iPoint(-1, -1);
 	iPoint colisionsPointsSize = iPoint(-1, -1);
 	iPoint colisionsLastCords = iPoint(-1, -1);
 
-	PathFinding* pathfinding;
-
-	bool deleteParadeBoos = false;
-	int bossRenderArea_R =32;
-	int bossRenderArea_L = 18;
-
-	bool deleteWallInbossFight = false;  
-
 private:
 
     SString mapFileName;
-    SString mapFileNameMapa1;
-    SString mapFileNameMapa2;
 	SString mapFolder;
     bool mapLoaded;
-	MapLayer* navigationLayer;
-	int blockedGid = 635;
-	int blockedGid2 = 627;
-	List<PhysBody*> collisionsList;
-	List<PhysBody*> collisionsList2;
-	List<PhysBody*> traspasedPlatformList;
-
 };
 
 #endif // __MAP_H__

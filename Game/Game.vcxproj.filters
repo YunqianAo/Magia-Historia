@@ -43,65 +43,23 @@
     <ClCompile Include="Source\Physics.cpp">
       <Filter>Modules\Other</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene.cpp">
+      <Filter>Modules\Other</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Timer.cpp">
       <Filter>Modules\Other</Filter>
     </ClCompile>
     <ClCompile Include="Source\Window.cpp">
       <Filter>Modules\Other</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ModuleParticles.cpp">
+    <ClCompile Include="Source\ItemBox.cpp">
+      <Filter>Modules\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Particle.cpp">
       <Filter>Modules\Particles</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Effect.cpp">
-      <Filter>Modules\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ModuleFadeToBlack.cpp">
-      <Filter>Modules\FadeToBlack</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Enemy_Goblin.cpp">
-      <Filter>Modules\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Enemy_Flyeye.cpp">
-      <Filter>Modules\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Pathfinding.cpp">
-      <Filter>Modules\Pathfinding</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Boss.cpp">
-      <Filter>Modules\Boss</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\BossItem.cpp">
-      <Filter>Modules\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\PlayerLife.cpp">
-      <Filter>Modules\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Angel.cpp">
-      <Filter>Modules\Angel</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Diamond.cpp">
-      <Filter>Modules\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Cura.cpp">
-      <Filter>Modules\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Fonts.cpp">
-      <Filter>Modules\Font</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Teleport.cpp">
-      <Filter>Modules\Teleport</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GuiControlButton.cpp">
-      <Filter>Modules\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GuiManager.cpp">
-      <Filter>Modules\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Scene.cpp">
-      <Filter>Modules\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SceneMenu.cpp">
-      <Filter>Modules\Scene</Filter>
+    <ClCompile Include="Source\ModuleParticles.cpp">
+      <Filter>Modules\Particles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +126,9 @@
     <ClInclude Include="Source\Physics.h">
       <Filter>Modules\Other</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Scene.h">
+      <Filter>Modules\Other</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Timer.h">
       <Filter>Modules\Other</Filter>
     </ClInclude>
@@ -180,62 +141,14 @@
     <ClInclude Include="Source\Animation.h">
       <Filter>Modules\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ModuleParticles.h">
+    <ClInclude Include="Source\ItemBox.h">
+      <Filter>Modules\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Particle.h">
       <Filter>Modules\Particles</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Effect.h">
-      <Filter>Modules\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ModuleFadeToBlack.h">
-      <Filter>Modules\FadeToBlack</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Enemy_Goblin.h">
-      <Filter>Modules\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Enemy_Flyeye.h">
-      <Filter>Modules\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Pathfinding.h">
-      <Filter>Modules\Pathfinding</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Boss.h">
-      <Filter>Modules\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\BossItem.h">
-      <Filter>Modules\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\PlayerLife.h">
-      <Filter>Modules\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Angel.h">
-      <Filter>Modules\Angel</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Diamond.h">
-      <Filter>Modules\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Cura.h">
-      <Filter>Modules\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Fonts.h">
-      <Filter>Modules\Font</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Teleport.h">
-      <Filter>Modules\Teleport</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GuiControl.h">
-      <Filter>Modules\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GuiControlButton.h">
-      <Filter>Modules\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GuiManager.h">
-      <Filter>Modules\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Scene.h">
-      <Filter>Modules\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SceneMenu.h">
-      <Filter>Modules\Scene</Filter>
+    <ClInclude Include="Source\ModuleParticles.h">
+      <Filter>Modules\Particles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -283,33 +196,6 @@
     </Filter>
     <Filter Include="Modules\Particles">
       <UniqueIdentifier>{16035b7b-9473-4848-a3be-035ac3123b09}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Modules\Effect">
-      <UniqueIdentifier>{a77800a6-3d20-4942-836c-5e2c47ee2817}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Modules\FadeToBlack">
-      <UniqueIdentifier>{1de680f4-db3d-4b7d-b801-b14f1b74ae51}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Modules\Pathfinding">
-      <UniqueIdentifier>{a0d41bfb-34ef-4fd3-a1c4-b663e306bad0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Modules\Boss">
-      <UniqueIdentifier>{d360e954-676a-4139-bb6c-9da13e990cde}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Modules\Angel">
-      <UniqueIdentifier>{3da5697f-763f-463d-a768-c0a037d8982b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Modules\Font">
-      <UniqueIdentifier>{84a72164-ed07-40a9-b295-617359ea8c47}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Modules\Teleport">
-      <UniqueIdentifier>{26a70a62-fae5-4ef1-a124-bc213048188d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Modules\GUI">
-      <UniqueIdentifier>{6ad10e03-d140-47a7-9240-df6196a74bfa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Modules\Scene">
-      <UniqueIdentifier>{0b17fd62-5cb3-4251-a862-7f4600433435}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
