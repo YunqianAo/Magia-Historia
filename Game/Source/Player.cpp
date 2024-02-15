@@ -82,24 +82,36 @@ bool Player::Update(float dt)
 {
 
 	currentAnimation = &idle;
+	
+	if (!isDead) {
 
+		if (!app->godMode) {
+			if (pbody != nullptr) {
+				pbody->body->GetFixtureList()[0].SetSensor(false);
+				vel = b2Vec2(0, pbody->body->GetLinearVelocity().y);
+			}
+			if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 
-	b2Vec2 vel = b2Vec2(0, pbody->body->GetLinearVelocity().y);
-
-
-	//printf("%d",frameCount);
-	//onWall = false;
-
-	app->win->GetWindowSize(width, height);
-
+				isFacingLeft = false;
+				vel = b2Vec2(speed * dt, pbody->body->GetLinearVelocity().y);
+				currentAnimation = &run;
+			}
+			vel.y -= GRAVITY_Y;
+			if (pbody != nullptr) {
+				pbody->body->SetLinearVelocity(vel);
+			}
+		}
+	}
 
 
 	if (!isDead) {
 
 		if (!app->godMode) {
 
-			pbody->body->GetFixtureList()[0].SetSensor(false);
-			vel = b2Vec2(0, pbody->body->GetLinearVelocity().y);
+			if (pbody != nullptr) {
+				pbody->body->GetFixtureList()[0].SetSensor(false);
+				vel = b2Vec2(0, pbody->body->GetLinearVelocity().y);
+			}
 
 			if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
 				if (!isFacingLeft) {
@@ -113,18 +125,6 @@ bool Player::Update(float dt)
 				isFacingLeft = true;
 				vel = b2Vec2(-speed * dt, pbody->body->GetLinearVelocity().y);
 				currentAnimation = &run;
-
-				/*if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
-					vel = b2Vec2(-crouchspeed * dt, pbody->body->GetLinearVelocity().y);
-					currentAnimation = &crouch;
-				}*/
-
-				/*if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && onWall) {
-					printf("%d", onWall);
-					vel = b2Vec2(pbody->body->GetLinearVelocity().x, (-speed * 4) * dt);
-					currentAnimation = &crouch;
-				}*/
-
 			}
 			if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 
@@ -405,63 +405,20 @@ bool Player::Update(float dt)
 	//Update player position in pixels
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 50;
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 35;
-
+	SDL_Rect rect = currentAnimation->GetCurrentFrame();
 
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {
-		//position.y = parameters.attribute("y").as_int();
-
 		vel = b2Vec2(1, 23);
 		app->scene->GetPlayer()->isDead = false;
 
 		pbody->body->SetTransform(vel, pbody->body->GetAngle());
-
-		//printf("posX: %d ", position.x);
-		//printf("posY: %d ", position.y);
-		//pbody->body->SetLinearVelocity(vel);
 	}
 
 
 	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {
-		//position.y = parameters.attribute("y").as_int();
-
 		vel = b2Vec2(1, 23);
-
-
 		pbody->body->SetTransform(vel, pbody->body->GetAngle());
-
-		printf("posX: %d ", position.x);
-		printf("posY: %d ", position.y);
-		//pbody->body->SetLinearVelocity(vel);
 	}
-
-
-
-
-	//printf("PosY: %d ",position.y);//-989-957
-	//printf("\n");
-	//printf("CameraY: %d ", app->render->camera.y);//-989-957
-
-
-
-
-
-
-	//Die
-	if (isDead) {
-		currentAnimation = &die;
-
-	}
-
-	if (app->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
-		isDead = !isDead;
-		die.Reset();
-	}
-
-
-
-
-	//app->render->DrawTexture(texture, position.x, position.y);
-	SDL_Rect rect = currentAnimation->GetCurrentFrame();
 
 	if (isFacingLeft) {
 
@@ -473,10 +430,8 @@ bool Player::Update(float dt)
 	}
 
 
-
+	
 	currentAnimation->Update();
-
-	//cargar siempre despues de dibujar al player
 	app->map->UpdateDelante();
 
 

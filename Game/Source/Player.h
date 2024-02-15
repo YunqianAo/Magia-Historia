@@ -97,6 +97,8 @@ public:
 	
 	int cameraUP;
 
+
+	b2Vec2 vel;
 };
 
 #endif // __PLAYER_H__

@@ -9,7 +9,7 @@
 
 #define MAX_FRAMES 2500
 
-class Animation 
+class Animation
 {
 public:
 	float speed = 1.0f;
@@ -19,7 +19,7 @@ public:
 	bool pingpong = false;
 	int animeFrameCount = 0;
 	int aniFrameTotal = 0;
-
+	const char* aniName;
 
 private:
 	float currentFrame = 0.0f;
@@ -70,7 +70,7 @@ public:
 		return frames[actualFrame];
 	}
 
-	SDL_Rect* SpritesPos(int totalPos, int weight, int hight,int ancho )
+	SDL_Rect* SpritesPos(int totalPos, int weight, int hight, int ancho)
 	{
 
 		SDL_Rect* anirec = new SDL_Rect[totalPos];
@@ -82,7 +82,7 @@ public:
 			anirec[i].y = y;
 			anirec[i].w = weight;
 			anirec[i].h = hight;
-			if (x == ancho- weight) {
+			if (x == ancho - weight) {
 				x = 0;
 				y += hight;
 			}
@@ -94,14 +94,14 @@ public:
 		return anirec;
 	}
 
-	void LoadAnim(char* Anipart, char* NombreAni, SDL_Rect* spritePositions) {
+	void LoadAnim(char* Anipart, const char* NombreAni, SDL_Rect* spritePositions) {
 
-		
+
+		aniName = NombreAni;
 		pugi::xml_document configFile;
 		pugi::xml_node AniInfo;
 		pugi::xml_parse_result parseResult = configFile.load_file("config.xml");
 		AniInfo = configFile.child("config").child("Animations").child(Anipart).child(NombreAni);
-
 
 		if (AniInfo.attribute("start").as_int() > AniInfo.attribute("end").as_int()) {
 			for (int i = AniInfo.attribute("start").as_int(); i > AniInfo.attribute("end").as_int(); i--)
@@ -117,11 +117,16 @@ public:
 
 			}
 		}
-		
 		this->speed = AniInfo.attribute("speed").as_float();
 		this->loop = AniInfo.attribute("loop").as_bool();
 	}
 
+	const char* getNameAnimation() {
+
+		return aniName;
+	}
+
 };
+
 
 #endif

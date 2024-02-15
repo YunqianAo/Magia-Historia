@@ -383,6 +383,11 @@ bool PhysBody::Contains(int x, int y) const
 	return false;
 }
 
+b2World* Physics::GetWorld()
+{
+	return world;
+}
+
 int PhysBody::RayCast(int x1, int y1, int x2, int y2, float& normal_x, float& normal_y) const
 {
 	int ret = -1;

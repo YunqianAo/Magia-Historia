@@ -8,13 +8,35 @@
 
 class PhysBody;
 
+
+
+enum class EntityLifeBarState {
+	IDLE,
+	DIE,
+	TAKEHIT,
+	TREATMENT,
+	UNKNOWN
+};
 enum class EntityType
 {
 	PLAYER,
+	PLAYERLIFE,
+	ENEMY_FLYEYE,
+	ENEMY_GOBLIN,
+	BOSS,
+	BOSSITEM,
+	ANGEL,
 	ITEM,
+	CURA,
+	DIAMOND,
+	TELEPORT,
 	ITEMBOX,
+	SHOP,
+	EFFECT,
 	UNKNOWN
 };
+
+
 
 class Entity
 {
@@ -74,17 +96,22 @@ public:
 
 	};
 
+	virtual void OnEndCollision(PhysBody* physA, PhysBody* physB) {
+
+	};
+
 public:
 
 	SString name;
 	EntityType type;
+	EntityLifeBarState lifebarState;
 	bool active = true;
-	pugi::xml_node parameters; 
+	pugi::xml_node parameters;
 
 	// Possible properties, it depends on how generic we
 	// want our Entity class, maybe it's not renderable...
-	iPoint position;    
-
+	iPoint position;
+	iPoint originalposition;
 	bool renderable = true;
 };
 
