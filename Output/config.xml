@@ -43,9 +43,9 @@
 	 </scene>
 	<Animations>
 		<Player>
-			<idle start="0" end="4" speed="0.15f" loop="true"/>
-			<crouch start="5" end="8" speed="0.08f" loop="true"/>
-			<run start="9" end="14" speed="0.08f" loop="true"/>
+			<idle start="0" end="8" speed="0.15f" loop="true"/>
+			<crouch start="0" end="8" speed="0.08f" loop="true"/>
+			<run start="24" end="28" speed="0.08f" loop="true"/>
 			<highjump start="15" end="24" speed="0.4f" loop="true"/>
 			<slide start="25" end="29" speed="0.1f" loop="false"/>
 			<atack start="43" end="53" speed="0.2f" loop="false"/>
