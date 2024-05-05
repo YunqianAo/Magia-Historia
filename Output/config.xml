@@ -26,7 +26,7 @@
 
 	<scene>
 		<player x="40" y="1100" speed="0.4f" crouchspeed="0.1f" jumpforce="15" texturepath="Assets/Sprite/Witch/Sheets/SalamandarWitch_-Sheet-Sheet.png">
-			<animations Tsprite="109" x="50" y="37" Pweight="350"/>
+			<animations Tsprite="152" x="256" y="144" Pweight="38912"/>
 			<audio texturepath="Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg"/>
 		</player>
 
